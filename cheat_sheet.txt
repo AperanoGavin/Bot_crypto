@@ -1,0 +1,14 @@
+pip install python-binance
+
+
+    Bull market : lorsque la valeur ne possède que des 'higher high' et 'higher low' ('vagues' vers le haut)
+   
+    Bear market : ' lorsque la valeur ne possède que des 'lower high' et des 'lower low' ('vagues' vers le bas)
+
+    Ligne de résistance : ligne qui joint les 'lower high' sur une période
+
+    Ligne de support : ligne qui joint les 'higher low' (descend)
+
+    on trade que les contrat future c bien sa ?
+
+    Comprendre les etapes de la strategie de Break Out(image breack)
