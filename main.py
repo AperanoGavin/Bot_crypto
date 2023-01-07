@@ -2,6 +2,7 @@ import discord
 import io
 import requests
 import time
+import asyncio
 from discord import app_commands
 from deep_translator import GoogleTranslator
 from binance.client import Client
@@ -67,13 +68,28 @@ print(price)
 
 @tree.command(name="btc" , description="prix du btc")
 async def btc( interaction: discord.Interaction ):
+    url_btc = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+    btc_price = url_btc.json()["bpi"]["USD"]["rate"]
       # if price > past_price:
       #   await interaction.response.send_message("Le prix du Bitcoin a augmenté depuis les dernières heures")
       # elif price < past_price:
        #  await interaction.response.send_message("Le prix du Bitcoin a diminué depuis les dernières heures")
        #else:
       #   await interaction.response.send_message("Le prix du Bitcoin n'a pas changé depuis les dernières heures")
-       await interaction.response.send_message(price)        
+    await interaction.response.send_message(btc_price)    
+    
+@client.event
+async def on_ready():
+   while True:
+       # chaque 10 secondes dans le channel #topg
+        url_btc = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+        btc_price = url_btc.json()["bpi"]["USD"]["rate_float"]
+        await client.get_channel(1061064151318921329).send(btc_price) 
+        if btc_price < 16600.00000000 :
+            #envoyer un message dans le channel #topg en identifiant le role @everyone
+            await client.get_channel(1061064151318921329).send("@everyone Le prix du Bitcoin a baissé on peut acheter")
+        #envoyer le réponse tous les jours à 8h45 dans le channel #test-bot-veen
+        await asyncio.sleep(3600)        
 
 
 client.run(token)
