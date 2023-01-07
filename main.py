@@ -42,6 +42,11 @@ async def foot( interaction: discord.Interaction):
 
 
 
+
+
+
+
+
 # Seuils de prix définis dans votre stratégie
 buy_threshold = 1000
 sell_threshold = 1100
@@ -52,9 +57,23 @@ order_size = 0.1
 # ID de produit de Binance (par exemple, BTCUSDT pour le Bitcoin en dollars américains)
 product_id = 'BTCUSDT'
 
-# Créer un objet Client avec vos clés d'API et votre mot de passe de sécurité
+# récupère le prix du btc actuel
 client_binance = Client(binance, binance_secret_key)
+get_btc_price = client_binance.get_symbol_ticker(symbol=product_id)
+price = get_btc_price["price"]
+print(price)
 
+
+
+@tree.command(name="btc" , description="prix du btc")
+async def btc( interaction: discord.Interaction ):
+      # if price > past_price:
+      #   await interaction.response.send_message("Le prix du Bitcoin a augmenté depuis les dernières heures")
+      # elif price < past_price:
+       #  await interaction.response.send_message("Le prix du Bitcoin a diminué depuis les dernières heures")
+       #else:
+      #   await interaction.response.send_message("Le prix du Bitcoin n'a pas changé depuis les dernières heures")
+       await interaction.response.send_message(price)        
 
 
 client.run(token)
