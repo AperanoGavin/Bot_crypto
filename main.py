@@ -46,9 +46,6 @@ sell_threshold = 1100
 # Quantité de cryptomonnaie à acheter ou vendre
 order_size = 0.1
 
-# ID de produit de Binance (par exemple, BTCUSDT pour le Bitcoin en dollars américains)
-product_id = 'BTCUSDT'
-
 # récupère le prix du btc actuel
 client_binance = Client(binance, binance_secret_key)
 get_btc_price = client_binance.get_symbol_ticker(symbol=product_id)
