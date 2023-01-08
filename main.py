@@ -39,15 +39,6 @@ async def foot( interaction: discord.Interaction):
     get_quote_translate = GoogleTranslator(source='auto', target='fr').translate(url_quote)
     await interaction.response.send_message(get_quote_translate)        
 
-#crypto (binance) bitcoin
-
-
-
-
-
-
-
-
 # Seuils de prix définis dans votre stratégie
 buy_threshold = 1000
 sell_threshold = 1100
@@ -78,18 +69,39 @@ async def btc( interaction: discord.Interaction ):
       #   await interaction.response.send_message("Le prix du Bitcoin n'a pas changé depuis les dernières heures")
     await interaction.response.send_message(btc_price)    
     
+    
+@tree.command(name="usdt" , description="prix de l'usdt")
+async def usdt( interaction: discord.Interaction ):
+    url_usdt = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BUSDUSDT")
+    usdt_price = url_usdt.json()["price"]
+      # if price > past_price:
+      #   await interaction.response.send_message("Le prix du Bitcoin a augmenté depuis les dernières heures")
+      # elif price < past_price:
+       #  await interaction.response.send_message("Le prix du Bitcoin a diminué depuis les dernières heures")
+       #else:
+      #   await interaction.response.send_message("Le prix du Bitcoin n'a pas changé depuis les dernières heures")
+    await interaction.response.send_message(usdt_price)     
+    
 @client.event
 async def on_ready():
    while True:
-       # chaque 10 secondes dans le channel #topg
+        #btc
         url_btc = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
         btc_price = url_btc.json()["bpi"]["USD"]["rate_float"]
         await client.get_channel(1061064151318921329).send(btc_price) 
+        
+        #usdt 
+        url_usdt = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BUSDUSDT")
+        usdt_price = url_usdt.json()["price"]
+        await client.get_channel(1061615774940270682).send(usdt_price) 
+        if usdt_price < 0.80000000 :
+            await client.get_channel(1061064151318921329).send("@everyone Le prix de l'usdt a baissé on peut acheter")
+        
         if btc_price < 16600.00000000 :
             #envoyer un message dans le channel #topg en identifiant le role @everyone
             await client.get_channel(1061064151318921329).send("@everyone Le prix du Bitcoin a baissé on peut acheter")
         #envoyer le réponse tous les jours à 8h45 dans le channel #test-bot-veen
         await asyncio.sleep(3600)        
-
+     
 
 client.run(token)
