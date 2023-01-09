@@ -48,9 +48,9 @@ order_size = 0.1
 
 # récupère le prix du btc actuel
 client_binance = Client(binance, binance_secret_key)
-get_btc_price = client_binance.get_symbol_ticker(symbol=product_id)
-price = get_btc_price["price"]
-print(price)
+#get_btc_price = client_binance.get_symbol_ticker(symbol=product_id)
+#price = get_btc_price["price"]
+#print(price)
 
 
 
